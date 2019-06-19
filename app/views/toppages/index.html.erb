@@ -1,5 +1,33 @@
 <% if logged_in? %>
-  <p>ログイン完了ユーザ: <%= current_user.name %></p>
+  <div class="row">
+    <aside class="col-sm-8">
+      <div>
+        <h1>小遣い帳投稿一覧</h1>
+      </div>
+    </aside>
+    <div class="col-sm-2">
+      <%= link_to '新規', new_title_path, class: 'btn btn-primary' %>
+    </div>
+    <div class="col-sm-2">
+      <%= link_to 'マイページ', user_path(@current_user), class: 'btn btn-primary' %>
+    </div>
+  </div>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th class="text-left">タイトル</th>
+        <th class="text-left">金額</th>
+        <th class="text-left">作成者</th>
+      </tr>
+      <% @titles.each do |title| %>
+        <tr>
+          <td class="text-left"><%= link_to title.name, title_path(title) %></td>
+          <td class="text-left"></td>
+          <td class="text-left"><%= link_to title.user.name, user_path(title.user) %></td>
+        </tr>
+      <% end %>
+    </thead>
+  </table>
 <% else %>
   <div class="center jumbotron">
     <div class="text-center">

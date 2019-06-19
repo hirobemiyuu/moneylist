@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="offset-sm-6 col-sm-2">
+      <%= link_to '一覧', '/', class: 'btn btn-primary' %>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm-6 offset-sm-3">
+      <%= form_with(model: @item, local: true) do |f| %>
+        <%= render 'layouts/error_messages', model: f.object %>
+        <div class="form_group">
+          <%= f.label :day, 'day' %>
+          <%= f.text_field :day, class: 'form-control' %>
+        </div>
+        <div class="form_group">
+          <%= f.label :place, 'place' %>
+          <%= f.text_field :place, class: 'form-control' %>
+        </div>
+        <div class="form_group">
+          <%= f.label :name, 'title' %>
+          <%= f.text_field :name, class: 'form-control' %>
+        </div>
+        <div class="form_group">
+          <%= f.label :price, 'price' %>
+          <%= f.text_field :price, class: 'form-control' %>
+        </div>
+        <div class="form_group">
+          <%= f.label :tag_1, 'tag_1' %>
+          <%= f.text_field :tag_1, class: 'form-control' %>
+        </div>
+        <div class="form_group">
+          <%= f.label :tag_2, 'tag_2' %>
+          <%= f.text_field :tag_2, class: 'form-control' %>
+        </div>
+        <%= f.hidden_field :title_id %>
+        <%= f.submit '変更', class: "btn btn-primary" %>
+      <% end %>
+    </div>
+</div>
