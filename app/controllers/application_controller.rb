@@ -10,4 +10,12 @@ class ApplicationController < ActionController::Base
       redirect_to login_url
     end
   end
+  
+  def total_fee(title)
+    @fee = 0
+    title.items.each do |item|
+      @fee += item.price
+    end
+  end
+  
 end

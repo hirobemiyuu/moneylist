@@ -2,7 +2,9 @@ class TitlesController < ApplicationController
   before_action :correct_user, only: [:edit, :destroy]
   def show
     @title = Title.find(params[:id])
-    @items = @title.items.order(id: :desc)
+    @items = @title.items.order(day: :desc)
+    counts(@title)
+    total_fee(@title)
   end
 
   def new
@@ -57,4 +59,9 @@ class TitlesController < ApplicationController
       redirect_to title_path(Title.find(params[:id]))
     end
   end
+  
+  def counts(title)
+    @count_items = title.items.count
+  end
+
 end

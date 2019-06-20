@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-  before_action :correct_user, only: [:edit, :destroy]
   def new
     @title = Title.find(params[:title_id])
     @item = @title.items.build
@@ -48,11 +47,5 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:day, :place, :name, :price, :tag_1, :tag_2, :title_id)
   end
 
-  def correct_user
-    @title = current_user.titles.find_by(id: params[:item][:title_id])
-    unless @title
-      redirect_to title_path(Title.find(params[:id]))
-    end
-  end
 
 end

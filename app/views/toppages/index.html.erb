@@ -12,6 +12,11 @@
       <%= link_to 'マイページ', user_path(@current_user), class: 'btn btn-primary' %>
     </div>
   </div>
+  <div class="row">
+    <div class="offset-sm-8 col-sm-4">
+      <p><%= link_to '検索', '#',class: 'btn btn-primary' %></p>
+    </div>
+  </div>
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
@@ -22,7 +27,7 @@
       <% @titles.each do |title| %>
         <tr>
           <td class="text-left"><%= link_to title.name, title_path(title) %></td>
-          <td class="text-left"></td>
+          <td class="text-left"><%= total_fee(title) %>円</td>
           <td class="text-left"><%= link_to title.user.name, user_path(title.user) %></td>
         </tr>
       <% end %>
