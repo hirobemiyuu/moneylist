@@ -1,10 +1,16 @@
 class TitlesController < ApplicationController
-  before_action :correct_user, only: [:edit, :destroy]
+  before_action :require_user_logged_in, only: [:edit, :destroy]
+  before_action :title_share, only: [:edit, :destroy]
+  def index
+    if logged_in?
+      @titles = Title.order(id: :desc).page(params[:page]).search(params[:search])
+      @title = Title.new
+    end
+  end
   def show
     @title = Title.find(params[:id])
-    @items = @title.items.order(day: :desc)
+    @items = @title.items.order(id: :desc).page(params[:page]).search_item(params[:search])
     counts(@title)
-    total_fee(@title)
   end
 
   def new
@@ -15,6 +21,11 @@ class TitlesController < ApplicationController
 
   def create
     @title = current_user.titles.build(title_params)
+    if params[:title][:status] == "共有"
+      @title.status = true
+    elsif params[:title][:status] == "個人用"
+      @title.status = false
+    end
     
     if @title.save
       flash[:success] = '小遣い帳を作成しました'
@@ -26,11 +37,11 @@ class TitlesController < ApplicationController
   end
 
   def edit
-    @title = current_user.titles.find(params[:id])
+    @title = Title.find(params[:id])
   end
 
   def update
-    @title = current_user.titles.find(params[:id])
+    @title = Title.find(params[:id])
     if @title.update(title_params)
       flash[:success] = 'タイトルを変更しました'
       redirect_to title_path(@title)
@@ -53,8 +64,8 @@ class TitlesController < ApplicationController
     params.require(:title).permit(:name)
   end
   
-  def correct_user
-    @title = current_user.titles.find_by(id: params[:id])
+  def title_share
+    @title = Title.find_by(status: true)
     unless @title
       redirect_to title_path(Title.find(params[:id]))
     end

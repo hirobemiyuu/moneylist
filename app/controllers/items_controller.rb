@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_action :require_user_logged_in
   def new
     @title = Title.find(params[:title_id])
     @item = @title.items.build
@@ -19,6 +20,7 @@ class ItemsController < ApplicationController
 
   def edit
     @item = Item.find(params[:id])
+    @title = Title.find(params[:title_id])
   end
 
   def update

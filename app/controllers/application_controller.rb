@@ -7,15 +7,10 @@ class ApplicationController < ActionController::Base
   
   def require_user_logged_in
     unless logged_in?
-      redirect_to login_url
+      redirect_to '/'
     end
   end
   
-  def total_fee(title)
-    @fee = 0
-    title.items.each do |item|
-      @fee += item.price
-    end
-  end
+
   
 end

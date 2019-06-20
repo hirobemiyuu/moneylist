@@ -4,58 +4,60 @@
       <h1><%= @title.name %></h1>
     </div>
   </aside>
-  <div class="offset-sm-1 col-sm-1">
-    <% if current_user == @title.user %>
-      <%= link_to '編集', edit_title_path,class: 'btn btn-primary' %>
-    <% end %>
-  </div>
-  <div class="offset-sm-1 col-sm-1">
-    <%= link_to '一覧', '/', class: 'btn btn-primary' %>
-  </div>
-</div>
-<div class="row">
-  <aside class="col-sm-10">
-    <div>
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th class="text-left">日</th>
-            <th class="text-left">場所</th>
-            <th class="text-left">名前</th>
-            <th class="text-left">価格</th>
-            <th class="text-left">タグ１</th>
-            <th class="text-left">タグ２</th>
-          </tr>
-          <% @title.items.each do |item| %>
-            <tr>
-              <td class="text-left"><%= item.day %></td>
-              <td class="text-left"><%= item.place %></td>
-              <td class="text-left"><%= item.name %></td>
-              <td class="text-left"><%= item.price %></td>
-              <td class="text-left"><%= item.tag_1 %></td>
-              <td class="text-left"><%= item.tag_2 %></td>
-            </tr>
-          <% end %>
-        </thead>
-      </table>
-    </div>
-  </aside>
   <div class="col-sm-2">
-    <% @title.items.each do |item| %>
-      <%= link_to '編集', edit_item_path(item), class: 'btn btn-primary' %>
-      <%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %>
+    <% if @title.status == true || current_user == @title.user %>
+      <%= link_to 'タイトル編集', edit_title_path,class: 'btn btn-primary' %>
     <% end %>
   </div>
-</div>
-
-<div class="row">
-  <div class="offset-sm-10 col-sm-2">
-    <%= link_to '項目追加', new_item_path(title_id: @title.id), class: 'btn btn-primary btn-block' %>
+  <div class="col-sm-2">
+    <%= link_to 'タイトル一覧', '/', class: 'btn btn-primary' %>
   </div>
 </div>
 <div class="row">
   <div class="offset-sm-8 col-sm-4">
-    <h2>合計：　<%= @count_items %>品　<%= @fee %>円</h2>
+    <h3>検索</h3>
+    <%= form_tag(title_path(@title), :method => 'get' ) do %>
+      <%= text_field_tag :search %>
+      <%= submit_tag 'Search' %>
+    <% end %>
+  </div>
+</div>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th class="text-left">日</th>
+      <th class="text-left">場所</th>
+      <th class="text-left">名前</th>
+      <th class="text-left">価格</th>
+      <th class="text-left">タグ１</th>
+      <th class="text-left">タグ２</th>
+    </tr>
+    <% @title.items.each do |item| %>
+      <tr>
+        <td class="text-left"><%= item.day %></td>
+        <td class="text-left"><%= item.place %></td>
+        <td class="text-left"><%= item.name %></td>
+        <td class="text-left"><%= item.price %></td>
+        <td class="text-left"><%= item.tag_1 %></td>
+        <td class="text-left"><%= item.tag_2 %></td>
+        <% if @title.status == true || current_user == @title.user %>
+          <td><%= link_to '編集', edit_item_path(item, title_id: @title.id), class: 'btn btn-primary' %></td>
+          <td><%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </thead>
+</table>
+<div class="row">
+  <div class="offset-sm-10 col-sm-2">
+    <% if @title.status == true || current_user == @title.user %>
+      <%= link_to '項目追加', new_item_path(title_id: @title.id), class: 'btn btn-primary btn-block' %>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="offset-sm-8 col-sm-4">
+    <h2>合計：　<%= @count_items %>品　<%= @title.total_fee %>円</h2>
   </div>
 </div>
 <% if current_user == @title.user %>
