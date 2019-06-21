@@ -37,15 +37,20 @@
     </tr>
     <% @items.each do |item| %>
       <tr>
-       <td class="text-left"><%= item.day %></td>
+        <% item_user = User.find(item.userid) %>
+        <td class="text-left"><%= item.day %></td>
         <td class="text-left"><%= item.place %></td>
         <td class="text-left"><%= item.name %></td>
         <td class="text-left"><%= number_to_currency(item.price, :locale => 'suuji') %></td>
         <td class="text-left"><%= item.tag_1 %></td>
         <td class="text-left"><%= item.tag_2 %></td>
+        <% if @title.status == true %>
+          <td class="text-left"><%= item_user.name %></td>
+        <% end %>
+        <% if (@title.status == true && item_user.id == current_user.id) || current_user == @title.user %>
           <td style="border:none;"><%= link_to '編集', edit_item_path(item, title_id: @title.id), class: 'btn btn-primary' %></td>
           <td style="border:none;"><%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></td>
-
+        <% end %>
       </tr>
     <% end %>
   </thead>
