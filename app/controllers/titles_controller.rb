@@ -9,8 +9,11 @@ class TitlesController < ApplicationController
   end
   def show
     @title = Title.find(params[:id])
-    @items = @title.items.order(id: :desc).page(params[:page]).search_item(params[:search])
+    @items = @title.items.order(day: :asc).page(params[:page]).search_item(params[:search])
     counts(@title)
+    @coment = @title.coments.build
+    @coments = @title.coments.order(id: :asc).page(params[:page])
+    
   end
 
   def new

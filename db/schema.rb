@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_20_013811) do
+ActiveRecord::Schema.define(version: 2019_06_21_065003) do
+
+  create_table "coments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "content"
+    t.bigint "title_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "userid"
+    t.string "user_name"
+    t.index ["title_id"], name: "index_coments_on_title_id"
+  end
 
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "title_id"
@@ -32,6 +42,7 @@ ActiveRecord::Schema.define(version: 2019_06_20_013811) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "fee"
+    t.text "coment"
     t.index ["user_id"], name: "index_titles_on_user_id"
   end
 
@@ -43,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_06_20_013811) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "coments", "titles"
   add_foreign_key "items", "titles"
   add_foreign_key "titles", "users"
 end

@@ -32,7 +32,7 @@
       <% @titles.each do |title| %>
         <tr>
           <td class="text-left"><%= link_to title.name, title_path(title) %></td>
-          <td class="text-left"><%= title.total_fee %>円</td>
+          <td class="text-left"><%= number_to_currency(title.total_fee, :locale => 'jp') %></td>
           <td class="text-left"><%= link_to title.user.name, user_path(title.user) %></td>
           <td class="text-left">
             <% if title.status == true %>

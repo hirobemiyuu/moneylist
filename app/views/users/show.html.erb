@@ -14,35 +14,41 @@
   </div>
 </div>
 
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">個人</h3>
-  </div>
-  <div class="card-body">
-    <% if @titles %>
-      <% @titles.each do |title| %>
-        <ul>
-          <% if title.status == false %>
-            <li><td class="text-left"><%= link_to title.name, title_path(title) %></a></li>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">個人</h3>
+      </div>
+      <div class="card-body">
+        <% if @titles %>
+          <% @titles.each do |title| %>
+            <ul>
+              <% if title.status == false %>
+                <li><td class="text-left"><%= link_to title.name, title_path(title) %></td></li>
+              <% end %>
+            </ul>
           <% end %>
-        </ul>
-      <% end %>
-    <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
-</div>
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">共有</h3>
-  </div>
-  <div class="card-body">
-    <% if @titles %>
-      <% @titles.each do |title| %>
-        <ul>
-          <% if title.status == true %>
-            <li><td class="text-left"><%= link_to title.name, title_path(title) %></a></li>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">共有</h3>
+      </div>
+      <div class="card-body">
+        <% if @titles %>
+          <% @titles.each do |title| %>
+            <ul>
+              <% if title.status == true %>
+                <li><td class="text-left"><%= link_to title.name, title_path(title) %></td></li>
+              <% end %>
+            </ul>
           <% end %>
-        </ul>
-      <% end %>
-    <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
