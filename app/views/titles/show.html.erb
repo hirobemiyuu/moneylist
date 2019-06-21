@@ -31,19 +31,21 @@
       <th class="text-left">価格</th>
       <th class="text-left">タグ１</th>
       <th class="text-left">タグ２</th>
+      <% if @title.status == true %>
+        <th class="text-left">作成者</th>
+      <% end %>
     </tr>
     <% @items.each do |item| %>
       <tr>
-        <td class="text-left"><%= item.day %></td>
+       <td class="text-left"><%= item.day %></td>
         <td class="text-left"><%= item.place %></td>
         <td class="text-left"><%= item.name %></td>
         <td class="text-left"><%= number_to_currency(item.price, :locale => 'suuji') %></td>
         <td class="text-left"><%= item.tag_1 %></td>
         <td class="text-left"><%= item.tag_2 %></td>
-        <% if @title.status == true || current_user == @title.user %>
           <td style="border:none;"><%= link_to '編集', edit_item_path(item, title_id: @title.id), class: 'btn btn-primary' %></td>
           <td style="border:none;"><%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></td>
-        <% end %>
+
       </tr>
     <% end %>
   </thead>
@@ -67,15 +69,15 @@
 <ul class="list-unstyled">
   <% @coments.each do |coment| %>
     <div>
-      <% user = User.find(coment.userid) %>
-      <% if user.id == @title.user_id %>
+      <% coment_user = User.find(coment.userid) %>
+      <% if coment_user.id == @title.user_id %>
         <li class="text-right">
       <% else %>
         <li class="text-left">
       <% end %>
-          <%= link_to user.name, user_path(user) %> <span class="text-muted">posted at <%= coment.created_at %></span>
+          <%= link_to coment_user.name, user_path(coment_user) %> <span class="text-muted">posted at <%= coment.created_at %></span>
           <p><%= coment.content %></p>
-          <% if user.id == @current_user.id %>
+          <% if coment_user.id == current_user.id %>
             <%= link_to "Delete", coment_path(coment, title_id: @title.id), method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
           <% end %>
         </li>

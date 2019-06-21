@@ -4,7 +4,7 @@ class Title < ApplicationRecord
   validates :name, presence: true, length:{maximum:30}
   validates :status, inclusion: { in: [true, false] }
   has_many :items, dependent: :destroy
-  has_many :coments
+  has_many :coments, dependent: :destroy
   
   
   def total_fee

@@ -8,7 +8,7 @@ class ItemsController < ApplicationController
   def create
     @title = Title.find(params[:item][:title_id])
     @item = @title.items.build(item_params)
-
+    @item.userid = current_user.id
     if @item.save
       flash[:success] = 'アイテムを作成しました'
       redirect_to title_path(@title)
