@@ -16,11 +16,11 @@
           <div class="field">
             <div class="radio-inline">
               <%= f.radio_button :status, '個人用' %>
-              <%= f.label '個人用' , class: "job_type_label" %>
+              <%= f.label :status, '個人用', value: '個人用', class: "job_type_label" %>
             </div>
             <div class="radio-inline">
               <%= f.radio_button :status, '共有' %>
-              <%= f.label :'共有', class: "job_type_label" %>
+              <%= f.label :status, '共有', value: '共有', class: "job_type_label" %>
             </div>
           </div>
         <% end %>

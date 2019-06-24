@@ -24,6 +24,6 @@ class ComentsController < ApplicationController
   private
   
   def coment_params
-    params.require(:coment).permit(:content)
+    params.require(:coment).permit(:content, :image)
   end
 end

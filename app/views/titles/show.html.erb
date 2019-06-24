@@ -37,7 +37,6 @@
     </tr>
     <% @items.each do |item| %>
       <tr>
-        <% item_user = User.find(item.userid) %>
         <td class="text-left"><%= item.day %></td>
         <td class="text-left"><%= item.place %></td>
         <td class="text-left"><%= item.name %></td>
@@ -45,12 +44,22 @@
         <td class="text-left"><%= item.tag_1 %></td>
         <td class="text-left"><%= item.tag_2 %></td>
         <% if @title.status == true %>
-          <td class="text-left"><%= item_user.name %></td>
+          <% if User.find_by(id: item.userid) %>
+            <% item_user = User.find(item.userid) %>
+            <td class="text-left"><%= item_user.name %></td>
+            <% if (@title.status == true && item_user.id == current_user.id) || current_user == @title.user %>
+              <td style="border:none;"><%= link_to '編集', edit_item_path(item, title_id: @title.id), class: 'btn btn-primary' %></td>
+              <td style="border:none;"><%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></td>
+            <% end %>
+          <% else %>
+            <td></td>
+            <% if current_user == @title.user %>
+              <td style="border:none;"><%= link_to '編集', edit_item_path(item, title_id: @title.id), class: 'btn btn-primary' %></td>
+              <td style="border:none;"><%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></td>
+            <% end %>            
+          <% end %>
         <% end %>
-        <% if (@title.status == true && item_user.id == current_user.id) || current_user == @title.user %>
-          <td style="border:none;"><%= link_to '編集', edit_item_path(item, title_id: @title.id), class: 'btn btn-primary' %></td>
-          <td style="border:none;"><%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></td>
-        <% end %>
+
       </tr>
     <% end %>
   </thead>
@@ -64,7 +73,7 @@
 </div>
 <div class="row">
   <div class="offset-sm-8 col-sm-4">
-    <h2>合計：　<%= @count_items %>品　<%= number_to_currency(@title.total_fee, :locale => 'jp') %></h2>
+    <h2>合計：　<%= @count_items %>品　<%= number_to_currency(@total, :locale => 'jp') %></h2>
   </div>
 </div>
 <% if current_user == @title.user %>
@@ -74,18 +83,23 @@
 <ul class="list-unstyled">
   <% @coments.each do |coment| %>
     <div>
-      <% coment_user = User.find(coment.userid) %>
-      <% if coment_user.id == @title.user_id %>
-        <li class="text-right">
-      <% else %>
-        <li class="text-left">
-      <% end %>
+      <% if User.find_by(id: coment.userid) %>
+        <% coment_user = User.find(coment.userid) %>
+          <% if coment_user.id == @title.user_id %>
+            <li class="text-right">
+          <% else %>
+            <li class="text-left">
+          <% end %>
           <%= link_to coment_user.name, user_path(coment_user) %> <span class="text-muted">posted at <%= coment.created_at %></span>
           <p><%= coment.content %></p>
+          <img src="<%= coment.image %>">
           <% if coment_user.id == current_user.id %>
             <%= link_to "Delete", coment_path(coment, title_id: @title.id), method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
           <% end %>
         </li>
+      <% else %>
+        <% coment.destroy %>
+      <% end %>
     </div>
   <% end %>
   <%= paginate @coments %>
@@ -94,6 +108,10 @@
 <%= form_with(model: @coment, local: true) do |f| %>
   <div class="form-group">
     <%= f.text_area :content, class: 'form-control', rows: 5 %>
+  </div>
+  <div class="form-group">
+    <%= f.label '画像の添付' %>
+    <%= f.file_field :image %>
   </div>
   <%= f.hidden_field :title_id %>
   <%= f.submit '投稿', class: 'btn btn-primary btn-block' %>

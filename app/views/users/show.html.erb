@@ -13,7 +13,11 @@
     <%= link_to '小遣い帳一覧', '/', class: 'btn btn-primary' %>
   </div>
 </div>
-
+<img src="<%= @user.image.url %>" width="100", height="100">
+<% if current_user == @user %>
+  <%= link_to 'アカウント情報の編集', edit_user_path(@user), class: 'btn btn-primary' %>
+  <%= link_to 'アカウントの削除', user_path(@user), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %>
+<% end %>
 <div class="row">
   <div class="col-sm-6">
     <div class="card">
@@ -22,13 +26,13 @@
       </div>
       <div class="card-body">
         <% if @titles %>
-          <% @titles.each do |title| %>
-            <ul>
+          <ul>
+            <% @titles.each do |title| %>
               <% if title.status == false %>
                 <li><td class="text-left"><%= link_to title.name, title_path(title) %></td></li>
               <% end %>
-            </ul>
-          <% end %>
+            <% end %>
+          </ul>
         <% end %>
       </div>
     </div>
@@ -40,13 +44,13 @@
       </div>
       <div class="card-body">
         <% if @titles %>
-          <% @titles.each do |title| %>
-            <ul>
+          <ul>
+            <% @titles.each do |title| %>
               <% if title.status == true %>
                 <li><td class="text-left"><%= link_to title.name, title_path(title) %></td></li>
               <% end %>
-            </ul>
-          <% end %>
+            <% end %>
+          </ul>
         <% end %>
       </div>
     </div>

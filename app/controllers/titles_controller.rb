@@ -10,10 +10,10 @@ class TitlesController < ApplicationController
   def show
     @title = Title.find(params[:id])
     @items = @title.items.order(day: :asc).page(params[:page]).search_item(params[:search])
-    counts(@title)
+    @count_items = @items.count
     @coment = @title.coments.build
     @coments = @title.coments.order(id: :asc).page(params[:page])
-    
+    @total = @items.pluck(:price).sum
   end
 
   def new
@@ -45,6 +45,13 @@ class TitlesController < ApplicationController
 
   def update
     @title = Title.find(params[:id])
+
+    if params[:title][:status] == "共有"
+      @title.status = true
+    elsif params[:title][:status] == "個人用"
+      @title.status = false
+    end
+    
     if @title.update(title_params)
       flash[:success] = 'タイトルを変更しました'
       redirect_to title_path(@title)
@@ -73,9 +80,4 @@ class TitlesController < ApplicationController
       redirect_to title_path(Title.find(params[:id]))
     end
   end
-  
-  def counts(title)
-    @count_items = title.items.count
-  end
-
 end

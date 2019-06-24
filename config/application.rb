@@ -19,6 +19,7 @@ Bundler.require(*Rails.groups)
 
 module Moneylist
   class Application < Rails::Application
+    config.autoload_paths += Dir[Rails.root.join('app', 'uploaders')] 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
@@ -29,5 +30,6 @@ module Moneylist
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    
   end
 end

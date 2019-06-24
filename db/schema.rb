@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_21_090754) do
+ActiveRecord::Schema.define(version: 2019_06_24_083850) do
 
   create_table "coments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "content"
@@ -19,7 +19,14 @@ ActiveRecord::Schema.define(version: 2019_06_21_090754) do
     t.datetime "updated_at", null: false
     t.integer "userid"
     t.string "user_name"
+    t.string "image"
     t.index ["title_id"], name: "index_coments_on_title_id"
+  end
+
+  create_table "image_uploaders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -53,6 +60,8 @@ ActiveRecord::Schema.define(version: 2019_06_21_090754) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
+    t.binary "picture"
   end
 
   add_foreign_key "coments", "titles"

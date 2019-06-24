@@ -6,7 +6,6 @@ class Title < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :coments, dependent: :destroy
   
-  
   def total_fee
     self.items.pluck(:price).sum
   end
