@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_24_083850) do
+ActiveRecord::Schema.define(version: 2019_06_25_072517) do
 
   create_table "coments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "content"
@@ -43,14 +43,27 @@ ActiveRecord::Schema.define(version: 2019_06_24_083850) do
     t.index ["title_id"], name: "index_items_on_title_id"
   end
 
+  create_table "sharings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "title_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title_id"], name: "index_sharings_on_title_id"
+    t.index ["user_id"], name: "index_sharings_on_user_id"
+  end
+
   create_table "titles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
     t.boolean "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "fee"
     t.text "coment"
+    t.text "member_ids"
+    t.text "member"
+    t.text "memberids"
+    t.text "members"
+    t.integer "m"
     t.index ["user_id"], name: "index_titles_on_user_id"
   end
 
@@ -61,10 +74,11 @@ ActiveRecord::Schema.define(version: 2019_06_24_083850) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
-    t.binary "picture"
   end
 
   add_foreign_key "coments", "titles"
   add_foreign_key "items", "titles"
+  add_foreign_key "sharings", "titles"
+  add_foreign_key "sharings", "users"
   add_foreign_key "titles", "users"
 end

@@ -8,6 +8,7 @@ class TitlesController < ApplicationController
     end
   end
   def show
+    @users = User.all
     @title = Title.find(params[:id])
     @items = @title.items.order(day: :asc).page(params[:page]).search_item(params[:search])
     @count_items = @items.count
@@ -19,6 +20,7 @@ class TitlesController < ApplicationController
   def new
     if logged_in?
       @title = current_user.titles.build
+      @users = User.all
     end
   end
 
@@ -41,6 +43,7 @@ class TitlesController < ApplicationController
 
   def edit
     @title = Title.find(params[:id])
+    @users = User.order(id: :desc)
   end
 
   def update
@@ -71,7 +74,7 @@ class TitlesController < ApplicationController
   private
   
   def title_params
-    params.require(:title).permit(:name)
+    params.require(:title).permit(:name, :status, memberids:[])
   end
   
   def title_share

@@ -25,20 +25,29 @@
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
-        <th class="text-left">タイトル</th>
-        <th class="text-left">金額</th>
-        <th class="text-left">作成者</th>
-        <th class="text-left">共有</th>
+        <th class="text-center">タイトル</th>
+        <th class="text-center">金額</th>
+        <th class="text-center">作成者</th>
+        <th class="text-center">編集可能</th>
       </tr>
       <% @titles.each do |title| %>
         <tr>
-          <td class="text-left"><%= link_to title.name, title_path(title) %></td>
-          <td class="text-left"><%= number_to_currency(title.total_fee, :locale => 'jp') %></td>
-          <td class="text-left"><%= link_to title.user.name, user_path(title.user) %></td>
-          <td class="text-left">
-            <% if title.status == true %>
-              〇
+          <td class="text-center"><%= link_to title.name, title_path(title) %></td>
+          <td class="text-center"><%= number_to_currency(title.total_fee, :locale => 'jp') %></td>
+          <td class="text-center"><%= link_to title.user.name, user_path(title.user) %></td>
+          <td class="text-center">
+          <% if title.memberids %>
+            <% title.memberids.gsub("￥","").gsub('"',"").gsub('[',"").gsub(']',"").split(",").each do |member| %>
+              <% if title.status == true %>
+                <% if (@current_user.id == member.to_i) && current_user != title.user %>
+                  〇
+                <% end %>
+              <% end %>
             <% end %>
+          <% end %>
+          <% if current_user == title.user %>
+            〇
+          <% end %>
           </td>
         </tr>
       <% end %>

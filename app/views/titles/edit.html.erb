@@ -23,6 +23,11 @@
               <%= f.label :status, '共有', value: '共有', class: "job_type_label" %>
             </div>
           </div>
+          <div class="check_box">
+            <%= f.collection_check_boxes(:memberids, User.all, :id, :name) do |b| %>
+              <%= b.label { b.check_box + b.text } %>
+            <% end %>
+          </div>
         <% end %>
         <%= f.submit '追加', class: "btn btn-primary" %>
       <% end %>

@@ -6,6 +6,10 @@ class Title < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :coments, dependent: :destroy
   
+  has_many :sharings
+  has_many :users, through: :sharings, dependent: :destroy
+  accepts_nested_attributes_for :sharings, allow_destroy: true
+  
   def total_fee
     self.items.pluck(:price).sum
   end

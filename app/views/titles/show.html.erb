@@ -5,7 +5,16 @@
     </div>
   </aside>
   <div class="col-sm-2">
-    <% if @title.status == true || current_user == @title.user %>
+    <% if @title.memberids %>
+      <% @title.memberids.gsub("￥","").gsub('"',"").gsub('[',"").gsub(']',"").split(",").each do |member| %>
+        <% if @title.status == true %>
+          <% if (member.to_i == current_user.id) && current_user != @title.user %>
+            <%= link_to 'タイトル編集', edit_title_path,class: 'btn btn-primary' %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if current_user == @title.user %>
       <%= link_to 'タイトル編集', edit_title_path,class: 'btn btn-primary' %>
     <% end %>
   </div>
@@ -13,6 +22,23 @@
     <%= link_to 'タイトル一覧', '/', class: 'btn btn-primary' %>
   </div>
 </div>
+<h5>編集者</h5>
+<ul>
+  <% if @title.memberids %>
+    <% @title.memberids.gsub("￥","").gsub('"',"").gsub('[',"").gsub(']',"").split(",").each do |member| %>
+      <% if @title.status == true %>
+        <% @users.each do |user| %>
+          <% if (member.to_i == user.id) && current_user.id != member.to_i %>
+            <li><%= user.name %></li>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if current_user == @title.user %>
+    <li><%= current_user.name %></li>
+  <% end %>
+</ul>
 <div class="row">
   <div class="offset-sm-8 col-sm-4">
     <h3>タグ検索</h3>
@@ -66,13 +92,22 @@
 </table>
 <div class="row">
   <div class="offset-sm-10 col-sm-2">
-    <% if @title.status == true || current_user == @title.user %>
+    <% if @title.memberids %>
+      <% @title.memberids.gsub("￥","").gsub('"',"").gsub('[',"").gsub(']',"").split(",").each do |member| %>
+        <% if @title.status == true %>
+          <% if (member.to_i == current_user.id) && current_user != @title.user %>
+            <%= link_to '項目追加', new_item_path(title_id: @title.id), class: 'btn btn-primary btn-block' %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if current_user == @title.user %>
       <%= link_to '項目追加', new_item_path(title_id: @title.id), class: 'btn btn-primary btn-block' %>
     <% end %>
   </div>
 </div>
 <div class="row">
-  <div class="offset-sm-8 col-sm-4">
+  <div class="offset-sm-7">
     <h2>合計：　<%= @count_items %>品　<%= number_to_currency(@total, :locale => 'jp') %></h2>
   </div>
 </div>

@@ -4,10 +4,13 @@
     <li>
       <div class="body">
         <div>
-          <p><%= link_to user.name, user_path(user) %>'s page</p>
+          ・
+          <img src="<%= user.image.url %>" width="50", height="50">
+          <%= link_to user.name, user_path(user) %>
         </div>
       </div>
     </li>
+    <li><p></p></li>
     <% end %>
   </ul>
   <%= paginate @users %>
