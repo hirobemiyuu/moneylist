@@ -63,3 +63,5 @@ end
 gem 'carrierwave'
 gem 'rmagick'
 gem 'ransack'
+gem "chartkick"
+gem 'chartable'

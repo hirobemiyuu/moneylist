@@ -9,23 +9,23 @@
       <%= render 'layouts/error_messages', model: f.object %>
       <div class="form_group">
         <%= f.label :day, 'day' %>
-        <%= f.text_field :day, class: 'form-control' %>
+        <%= f.text_field :day, class: 'form-control', required: true %>
       </div>
       <div class="form_group">
         <%= f.label :place, 'place' %>
-        <%= f.text_field :place, class: 'form-control' %>
+        <%= f.text_field :place, class: 'form-control', required: true %>
       </div>
       <div class="form_group">
         <%= f.label :name, 'title' %>
-        <%= f.text_field :name, class: 'form-control' %>
+        <%= f.text_field :name, class: 'form-control', required: true %>
       </div>
       <div class="form_group">
         <%= f.label :price, 'price' %>
-        <%= f.text_field :price, class: 'form-control' %>
+        <%= f.text_field :price, class: 'form-control', required: true %>
       </div>
       <div class="form_group">
         <%= f.label :tag_1, 'tag_1' %>
-        <%= f.text_field :tag_1, class: 'form-control' %>
+        <%= f.text_field :tag_1, class: 'form-control', required: true %>
       </div>
       <div class="form_group">
         <%= f.label :tag_2, 'tag_2' %>

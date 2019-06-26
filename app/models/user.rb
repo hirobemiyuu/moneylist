@@ -6,6 +6,5 @@ class User < ApplicationRecord
   
   mount_uploader :image, ImageUploader
   has_many :sharings
-  # has_many :titles, through: :sharings, dependent: :destroy
   has_many :titles, dependent: :destroy
 end

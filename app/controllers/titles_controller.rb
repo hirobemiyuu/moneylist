@@ -10,11 +10,12 @@ class TitlesController < ApplicationController
   def show
     @users = User.all
     @title = Title.find(params[:id])
-    @items = @title.items.order(day: :asc).page(params[:page]).search_item(params[:search])
+    @items = @title.items.order(day: :asc).page(params[:page]).search_item(params[:status], params[:search])
     @count_items = @items.count
     @coment = @title.coments.build
     @coments = @title.coments.order(id: :asc).page(params[:page])
     @total = @items.pluck(:price).sum
+    @graph = @items.order('tag_1 ASC').group(:tag_1).sum(:price)
   end
 
   def new
@@ -51,7 +52,7 @@ class TitlesController < ApplicationController
 
     if params[:title][:status] == "共有"
       @title.status = true
-    elsif params[:title][:status] == "個人用"
+    else
       @title.status = false
     end
     

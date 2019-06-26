@@ -11,12 +11,25 @@ class Item < ApplicationRecord
   # def title
     # Title.find_by(id: self.title_id)
   # end
-  def self.search_item(search)
-    if search
-      where(['tag_1 LIKE ? or tag_2 LIKE ?', "%#{search}%", "%#{search}%"])
+  def self.search_item(status, search)
+    if search && search != ""
+      if status == 'tag'
+        where(['tag_1 LIKE ? or tag_2 LIKE ?', "%#{search}%", "%#{search}%"])
+      elsif status == 'day'
+        where(['day LIKE ?', "%#{search}%"])
+      elsif status == 'place'
+        where(['place LIKE ?', "%#{search}%"])
+      elsif status == 'name'
+        where(['name LIKE ?', "%#{search}%"])
+      elsif status == 'creater'
+        if User.find_by(name: search)
+          user = User.find_by(name: search)
+          search = user.id
+        end
+        where(['userid LIKE ?', "%#{search}%"])
+      end
     else
       all
     end
   end
-
 end

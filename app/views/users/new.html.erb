@@ -6,19 +6,19 @@
         <%= render 'layouts/error_messages', model: f.object %>
         <div class="form-group">
           <%= f.label :name, '名前' %>
-          <%= f.text_field :name, class: 'form-control' %>
+          <%= f.text_field :name, class: 'form-control', required: true %>
         </div>
         <div class="form-group">
           <%= f.label :email, 'アドレス' %>
-          <%= f.email_field :email, class: 'form-control' %>
+          <%= f.email_field :email, class: 'form-control', required: true %>
         </div>
         <div class="form-group">
           <%= f.label :password, 'パスワード' %>
-          <%= f.password_field :password, class: 'form-control' %>
+          <%= f.password_field :password, class: 'form-control', required: true %>
         </div>
         <div class="form-group">
           <%= f.label :password_confirmation, '確認用パスワード' %>
-          <%= f.password_field :password_confirmation, class: 'form-control' %>
+          <%= f.password_field :password_confirmation, class: 'form-control', required: true %>
         </div>
         <div class="form-group">
           <%= f.label :image, '画像' %>

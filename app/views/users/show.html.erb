@@ -1,23 +1,31 @@
 <div class="row">
   <aside class="col-sm-8">
     <div>
-      <h1><%= @user.name %>さんの小遣い帳リスト</h1>
+      <h1><%= @user.name %>さんのページ</h1>
     </div>
   </aside>
   <div class="col-sm-2">
     <% if current_user == @user %>
-      <%= link_to '新規小遣い帳', new_title_path, class: 'btn btn-primary' %>
+      <%= link_to '新規小遣い帳', new_title_path, class: 'btn btn-secondary' %>
     <% end %>
   </div>
   <div class="col-sm-2">
-    <%= link_to '小遣い帳一覧', '/', class: 'btn btn-primary' %>
+    <%= link_to '小遣い帳一覧', '/', class: 'btn btn-info' %>
   </div>
 </div>
-<img src="<%= @user.image.url %>" width="100", height="100">
-<% if current_user == @user %>
-  <%= link_to 'アカウント情報の編集', edit_user_path(@user), class: 'btn btn-primary' %>
-  <%= link_to 'アカウントの削除', user_path(@user), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %>
-<% end %>
+<div class="row">
+  <aside class="col-sm-2 mb-3 mt-3">
+    <img src="<%= @user.image.url %>" width="200", height="200">
+  </aside>
+  <div class="col-sm-4">
+    <% if current_user == @user %>
+      <ul style="list-style: none;">
+        <li class="mt-5"><%= link_to 'ユーザー情報の編集', edit_user_path(@user), class: 'btn btn-warning' %></li>
+        <li class="mt-3"><%= link_to 'ユーザーの削除', user_path(@user), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></li>
+      </ul>
+    <% end %>
+  </div>
+</div>
 <div class="row">
   <div class="col-sm-6">
     <div class="card">
