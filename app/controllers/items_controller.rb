@@ -26,6 +26,7 @@ class ItemsController < ApplicationController
   def update
     @title = Title.find(params[:item][:title_id])
     @item = Item.find(params[:id])
+    
     if @item.update(item_params)
       flash[:success] = 'アイテム内容を変更しました'
       redirect_to title_path(@title)

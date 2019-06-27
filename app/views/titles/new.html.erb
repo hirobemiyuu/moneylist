@@ -14,9 +14,9 @@
         </div>
         <div class="field mt-3">
           <div class="radio-inline text-center">
-            <%= f.radio_button :status, '個人用' %>
+            <%= f.radio_button :status, 'false' %>
             <%= f.label :status, '個人用　　　', value: '個人用', class: "job_type_label" %>
-            <%= f.radio_button :status, '共有' %>
+            <%= f.radio_button :status, 'true' %>
             <%= f.label :status, '共有', value: '共有', class: "job_type_label" %>
           </div>
         </div>

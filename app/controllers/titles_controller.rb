@@ -27,11 +27,6 @@ class TitlesController < ApplicationController
 
   def create
     @title = current_user.titles.build(title_params)
-    if params[:title][:status] == "共有"
-      @title.status = true
-    elsif params[:title][:status] == "個人用"
-      @title.status = false
-    end
     
     if @title.save
       flash[:success] = '小遣い帳を作成しました'
@@ -50,12 +45,6 @@ class TitlesController < ApplicationController
   def update
     @title = Title.find(params[:id])
 
-    if params[:title][:status] == "共有"
-      @title.status = true
-    else
-      @title.status = false
-    end
-    
     if @title.update(title_params)
       flash[:success] = 'タイトルを変更しました'
       redirect_to title_path(@title)
