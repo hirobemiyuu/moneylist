@@ -15,7 +15,7 @@ class TitlesController < ApplicationController
     @coment = @title.coments.build
     @coments = @title.coments.order(id: :asc).page(params[:page])
     @total = @items.pluck(:price).sum
-    # @graph = @items.order('tag_1 ASC').group(:tag_1).sum(:price)
+    @graph = @items.order('tag_1 ASC').group(:tag_1).sum(:price)
   end
 
   def new
