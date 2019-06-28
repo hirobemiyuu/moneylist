@@ -1,65 +1,70 @@
-<div class="row">
-  <aside class="col-sm-8">
-    <div>
-      <h1><%= @user.name %>さんのページ</h1>
+<div class="jumbotron">
+  <div class="row">
+    <aside class="col-sm-6">
+      <div>
+        <h1><%= @user.name %>さんのページ</h1>
+      </div>
+    </aside>
+    <div class="col-sm-2">
+      <% if current_user == @user %>
+        <%= link_to '新規小遣い帳', new_title_path, class: 'btn btn-secondary' %>
+      <% end %>
     </div>
-  </aside>
-  <div class="col-sm-2">
-    <% if current_user == @user %>
-      <%= link_to '新規小遣い帳', new_title_path, class: 'btn btn-secondary' %>
-    <% end %>
-  </div>
-  <div class="col-sm-2">
-    <%= link_to '小遣い帳一覧', '/', class: 'btn btn-info' %>
-  </div>
-</div>
-<div class="row">
-  <aside class="col-sm-2 mb-3 mt-3">
-    <img src="<%= @user.image.url %>" width="200", height="200">
-  </aside>
-  <div class="col-sm-4">
-    <% if current_user == @user %>
-      <ul style="list-style: none;">
-        <li class="mt-5"><%= link_to 'ユーザー情報の編集', edit_user_path(@user), class: 'btn btn-warning' %></li>
-        <li class="mt-3"><%= link_to 'ユーザーの削除', user_path(@user), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></li>
-      </ul>
-    <% end %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">個人</h3>
-      </div>
-      <div class="card-body">
-        <% if @titles %>
-          <ul>
-            <% @titles.each do |title| %>
-              <% if title.status == false %>
-                <li><td class="text-left"><%= link_to title.name, title_path(title) %></td></li>
-              <% end %>
-            <% end %>
-          </ul>
-        <% end %>
-      </div>
+    <div class="col-sm-2">
+      <%= link_to '小遣い帳一覧', '/', class: 'btn btn-info' %>
+    </div>
+    <div class="col-sm-2">
+      <%= link_to 'ユーザー一覧', users_path, class: 'btn btn-primary' %>
     </div>
   </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">共有</h3>
-      </div>
-      <div class="card-body">
-        <% if @titles %>
-          <ul>
-            <% @titles.each do |title| %>
-              <% if title.status == true %>
-                <li><td class="text-left"><%= link_to title.name, title_path(title) %></td></li>
+  <div class="row">
+    <aside class="col-sm-2 mb-3 mt-3">
+      <img src="<%= @user.image.url %>" width="200", height="200">
+    </aside>
+    <div class="col-sm-4">
+      <% if current_user == @user %>
+        <ul style="list-style: none;">
+          <li class="mt-5"><%= link_to 'ユーザー情報の編集', edit_user_path(@user), class: 'btn btn-warning' %></li>
+          <li class="mt-3"><%= link_to 'ユーザーの削除', user_path(@user), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></li>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card mb-3">
+        <div class="card-header">
+          <h3 class="card-title">個人</h3>
+        </div>
+        <div class="card-body">
+          <% if @titles %>
+            <ul>
+              <% @titles.each do |title| %>
+                <% if title.status == false %>
+                  <li><td class="text-left"><%= link_to title.name, title_path(title) %></td></li>
+                <% end %>
               <% end %>
-            <% end %>
-          </ul>
-        <% end %>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card mb-3">
+        <div class="card-header">
+          <h3 class="card-title">共有</h3>
+        </div>
+        <div class="card-body">
+          <% if @titles %>
+            <ul>
+              <% @titles.each do |title| %>
+                <% if title.status == true %>
+                  <li><td class="text-left"><%= link_to title.name, title_path(title) %></td></li>
+                <% end %>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

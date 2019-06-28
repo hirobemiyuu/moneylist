@@ -1,67 +1,79 @@
-<div class="row">
-  <aside class="col-sm-8">
-    <div>
-      <h1><%= @title.name %></h1>
-    </div>
-  </aside>
-  <div class="col-sm-2">
-    <% if @title.memberids %>
-      <% @title.memberids.gsub("￥","").gsub('"',"").gsub('[',"").gsub(']',"").split(",").each do |member| %>
-        <% if @title.status == true %>
-          <% if (member.to_i == current_user.id) && current_user != @title.user %>
-            <%= link_to 'タイトル編集', edit_title_path,class: 'btn btn-warning' %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <% if current_user == @title.user %>
-      <%= link_to 'タイトル編集', edit_title_path,class: 'btn btn-warning' %>
-    <% end %>
-  </div>
-  <div class="col-sm-2">
-    <%= link_to 'タイトル一覧', '/', class: 'btn btn-info' %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-4">
-    <h5>編集者</h5>
-    <ul>
-      <li><%= @title.user.name %></li>
+<div class="jumbotron">
+  <div class="row">
+    <aside class="col-sm-8">
+      <div>
+        <h1><%= @title.name %></h1>
+      </div>
+    </aside>
+    <div class="col-sm-2">
       <% if @title.memberids %>
         <% @title.memberids.gsub("￥","").gsub('"',"").gsub('[',"").gsub(']',"").split(",").each do |member| %>
           <% if @title.status == true %>
-            <% @users.each do |user| %>
-              <% if (member.to_i == user.id) && @title.user.id != member.to_i %>
-                <li><%= user.name %></li>
-              <% end %>
+            <% if (member.to_i == current_user.id) && current_user != @title.user %>
+              <%= link_to 'タイトル編集', edit_title_path,class: 'btn btn-warning' %>
             <% end %>
           <% end %>
         <% end %>
       <% end %>
-    </ul>
-  </div>
-
-  <div class="col-sm-4">
-    <h3>検索</h3>
-    <div class="field">
-      <%= form_for(title_path(@title), :method => 'get' ) do %>
-        <div class="field">
-          <div class="radio-inline">
-            <%= radio_button_tag :status, 'day' %>
-            <%= label_tag :status, '日付', value: 'day', class: "job_type_label" %>
-            <%= radio_button_tag :status, 'place' %>
-            <%= label_tag :status, '場所', value: '場所', class: "job_type_label" %>
-            <%= radio_button_tag :status, 'name' %>
-            <%= label_tag :status, '名前', value: '名前', class: "job_type_label" %>
-            <%= radio_button_tag :status, 'tag', {:checked => true}  %>
-            <%= label_tag :status, 'タグ', value: 'タグ', class: "job_type_label" %>
-            <%= radio_button_tag :status, 'creater' %>
-            <%= label_tag :status, '作成者', value: '作成者', class: "job_type_label" %>
-          </div>
-        </div>
-        <%= text_field_tag :search %>
-        <%= submit_tag 'Search' %>
+      <% if current_user == @title.user %>
+        <%= link_to 'タイトル編集', edit_title_path,class: 'btn btn-warning' %>
       <% end %>
+    </div>
+    <div class="col-sm-2">
+      <%= link_to 'タイトル一覧', '/', class: 'btn btn-info' %>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="card mt-3 mb-3">
+        <div class="card-header">
+          <h5 class="card-title">編集者</h5>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><%= @title.user.name %></li>
+            <% if @title.memberids %>
+              <% @title.memberids.gsub("￥","").gsub('"',"").gsub('[',"").gsub(']',"").split(",").each do |member| %>
+                <% if @title.status == true %>
+                  <% @users.each do |user| %>
+                    <% if (member.to_i == user.id) && @title.user.id != member.to_i %>
+                      <li><%= user.name %></li>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    
+    <div class="col-sm-4 mt-5">
+      <div class="mt-5">
+        <h3>検索</h3>
+        <div class="field">
+          <%= form_for(title_path(@title), :method => 'get' ) do %>
+            <div class="field">
+              <div class="radio-inline">
+                <%= radio_button_tag :status, 'day' %>
+                <%= label_tag :status, '日付', value: 'day', class: "job_type_label" %>
+                <%= radio_button_tag :status, 'place' %>
+                <%= label_tag :status, '場所', value: '場所', class: "job_type_label" %>
+                <%= radio_button_tag :status, 'name' %>
+                <%= label_tag :status, '名前', value: '名前', class: "job_type_label" %>
+                <%= radio_button_tag :status, 'tag', {:checked => true}  %>
+                <%= label_tag :status, 'タグ', value: 'タグ', class: "job_type_label" %>
+                <%= radio_button_tag :status, 'creater' %>
+                <%= label_tag :status, '作成者', value: '作成者', class: "job_type_label" %>
+              </div>
+            </div>
+            <%= text_field_tag :search %>
+            <%= submit_tag 'Search' %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -72,8 +84,8 @@
       <th class="text-left">場所</th>
       <th class="text-left">名前</th>
       <th class="text-left">価格</th>
-      <th class="text-left">タグ１</th>
-      <th class="text-left">タグ２</th>
+      <th class="text-left">メインタグ</th>
+      <th class="text-left">サブタグ</th>
       <% if @title.status == true %>
         <th class="text-left">作成者</th>
       <% end %>
@@ -92,18 +104,16 @@
           <% if User.find_by(id: item.userid) %>
             <% item_user = User.find(item.userid) %>
             <td class="text-left"><%= item_user.name %></td>
-            <% if (@title.status == true && item_user.id == current_user.id) || current_user == @title.user %>
+            <% if (@title.status == true && item_user.id == current_user.id) && current_user != @title.user %>
               <td style="border:none;"><%= link_to '編集', edit_item_path(item, title_id: @title.id), class: 'btn btn-warning' %></td>
               <td style="border:none;"><%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></td>
             <% end %>
-          <% else %>
-            <td></td>
-            <% if current_user == @title.user %>
-              <td style="border:none;"><%= link_to '編集', edit_item_path(item, title_id: @title.id), class: 'btn btn-warning' %></td>
-              <td style="border:none;"><%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></td>
-            <% end %>            
           <% end %>
         <% end %>
+        <% if current_user == @title.user %>
+          <td style="border:none;"><%= link_to '編集', edit_item_path(item, title_id: @title.id), class: 'btn btn-warning' %></td>
+          <td style="border:none;"><%= link_to '削除', item_path(item, title_id: @title.id), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' %></td>
+        <% end %>    
       </tr>
     <% end %>
   </tbody>
@@ -124,42 +134,40 @@
     <% end %>
   </div>
 </div>
-<div class="row">
-  <div class="offset-sm-7">
-    <h2>合計：　<%= @count_items %>品　<%= number_to_currency(@total, :locale => 'jp') %></h2>
-  </div>
+<div align="right">
+  <h2>合計：　<%= @count_items %>品　<%= number_to_currency(@total, :locale => 'jp') %></h2>
 </div>
 <% if current_user == @title.user %>
-  <%= link_to 'この小遣い帳を削除する', title_path(@title), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger btn-sm' %>
+  <%= link_to 'この小遣い帳を削除する', title_path(@title), method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger btn-sm mb-5' %>
 <% end %>
 
 <ul class="list-unstyled">
   <% @coments.each do |coment| %>
-    <div>
-      <% if User.find_by(id: coment.userid) %>
-        <% coment_user = User.find(coment.userid) %>
-          <% if coment_user.id == @title.user_id %>
-            <li class="text-right">
-          <% else %>
-            <li class="text-left">
-          <% end %>
-          <img src="<%= coment_user.image.url %>" width="50", height="50">
-          <%= link_to coment_user.name, user_path(coment_user) %> <span class="text-muted">posted at <%= coment.created_at %></span>
-          <p><%= coment.content %></p>
+    <% if User.find_by(id: coment.userid) %>
+      <% coment_user = User.find(coment.userid) %>
+        <% if coment_user.id == @title.user_id %>
+          <li class="text-right">
+        <% else %>
+          <li class="text-left">
+        <% end %>
+        <img src="<%= coment_user.image.url %>" width="50", height="50">
+        <%= link_to coment_user.name, user_path(coment_user) %> <span class="text-muted">posted at <%= coment.created_at %></span>
+        <p><%= coment.content %></p>
+        <% if coment.image %>
           <img src="<%= coment.image %>">
-          <% if coment_user.id == current_user.id %>
-            <%= link_to "Delete", coment_path(coment, title_id: @title.id), method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
-          <% end %>
-        </li>
-      <% else %>
-        <% coment.destroy %>
+        <% end %>
+        <% if coment_user.id == current_user.id %>
+          <%= link_to "Delete", coment_path(coment, title_id: @title.id), method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+        <% end %>
+      </li>
+    <% else %>
+      <% coment.destroy %>
       <% end %>
-    </div>
   <% end %>
   <%= paginate @coments %>
 </ul>
 
-<center>
+<div align="center">
   <%= form_with(model: @coment, local: true) do |f| %>
     <div class="form-group col-sm-8">
       <%= f.text_area :content, class: 'form-control', rows: 5 %>
@@ -171,4 +179,4 @@
     <%= f.hidden_field :title_id %>
     <%= f.submit '投稿', class: 'btn btn-primary col-sm-8 mb-5' %>
   <% end %>
-</center>
+</div>

@@ -1,33 +1,35 @@
 <% if logged_in? %>
-  <div class="row">
-    <div class="offset-sm-6 col-sm-2">
-      <%= link_to 'お小遣い帳一覧', '/', class: 'btn btn-info' %>
-    </div>
-  </div>  
-  <div class="row">
-    <div class="col-sm-6 offset-sm-3 mt-5">
-      <%= form_for @title do |f| %>
-        <%= render 'layouts/error_messages', model: f.object %>
-        <div class="form_group text-center">
-          <%= f.label :name, 'お小遣い帳の名前' %>
-          <%= f.text_field :name, class: 'form-control' %>
-        </div>
-        <div class="field mt-3">
-          <div class="radio-inline text-center">
-            <%= f.radio_button :status, 'false' %>
-            <%= f.label :status, '個人用　　　', value: '個人用', class: "job_type_label" %>
-            <%= f.radio_button :status, 'true' %>
-            <%= f.label :status, '共有', value: '共有', class: "job_type_label" %>
+  <div class="jumbotron">
+    <div class="row">
+      <div class="offset-sm-6 col-sm-2">
+        <%= link_to 'お小遣い帳一覧', '/', class: 'btn btn-info' %>
+      </div>
+    </div>  
+    <div class="row">
+      <div class="col-sm-6 offset-sm-3 mt-5">
+        <%= form_for @title do |f| %>
+          <%= render 'layouts/error_messages', model: f.object %>
+          <div class="form_group text-center">
+            <%= f.label :name, 'お小遣い帳の名前' %>
+            <%= f.text_field :name, class: 'form-control' %>
           </div>
-        </div>
-        <p class="text-center mt-5">共有するユーザー</p>
-        <div class="check_box">
-          <%= f.collection_check_boxes(:memberids, User.all, :id, :name) do |b| %>
-            <%= b.label { b.check_box + b.text } %>　
-          <% end %>
-        </div>
-        <center><%= f.submit '追加', class: "btn btn-primary col-sm-8 mt-5" %></center>
-      <% end %>
+          <div class="field mt-3">
+            <div class="radio-inline text-center">
+              <%= f.radio_button :status, 'false' %>
+              <%= f.label :status, '個人用　　　', value: '個人用', class: "job_type_label" %>
+              <%= f.radio_button :status, 'true' %>
+              <%= f.label :status, '共有', value: '共有', class: "job_type_label" %>
+            </div>
+          </div>
+          <p class="text-center mt-5">共有するユーザー</p>
+          <div class="check_box">
+            <%= f.collection_check_boxes(:memberids, User.all, :id, :name) do |b| %>
+              <%= b.label { b.check_box + b.text } %>　
+            <% end %>
+          </div>
+          <center><%= f.submit '追加', class: "btn btn-warning col-sm-8 mt-5" %></center>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>
